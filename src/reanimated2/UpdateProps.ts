@@ -4,7 +4,7 @@ import { processColorsInProps } from './Colors';
 import type { ShadowNodeWrapper, SharedValue, StyleProps } from './commonTypes';
 import type { AnimatedStyle } from './helperTypes';
 import type { Descriptor } from './hook/commonTypes';
-import { _updatePropsJS } from './js-reanimated';
+// import { _updatePropsJS } from './js-reanimated';
 import { isFabric, isJest, shouldBeUseWeb } from './PlatformChecker';
 import type { ViewRefSet } from './ViewDescriptorsSet';
 import { runOnUIImmediately } from './threads';
@@ -17,14 +17,15 @@ let updateProps: (
 ) => void;
 
 if (shouldBeUseWeb()) {
-  updateProps = (_, updates, maybeViewRef, isAnimatedProps) => {
-    'worklet';
-    if (maybeViewRef) {
-      maybeViewRef.items.forEach((item, _) => {
-        _updatePropsJS(updates, item, isAnimatedProps);
-      });
-    }
-  };
+  // It's crash the app. Issue: https://github.com/software-mansion/react-native-reanimated/issues/5468
+  // updateProps = (_, updates, maybeViewRef, isAnimatedProps) => {
+  //   'worklet';
+  //   if (maybeViewRef) {
+  //     maybeViewRef.items.forEach((item, _) => {
+  //       _updatePropsJS(updates, item, isAnimatedProps);
+  //     });
+  //   }
+  // };
 } else {
   updateProps = (viewDescriptors, updates) => {
     'worklet';

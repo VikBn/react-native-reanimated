@@ -216,25 +216,26 @@ function createProgressTransitionRegister() {
 }
 
 if (shouldBeUseWeb()) {
-  const maybeThrowError = () => {
-    // Jest attempts to access a property of this object to check if it is a Jest mock
-    // so we can't throw an error in the getter.
-    if (!isJest()) {
-      throw new Error(
-        '[Reanimated] `ProgressTransitionRegister` is not available on non-native platform.'
-      );
-    }
-  };
-  global.ProgressTransitionRegister = new Proxy(
-    {} as ProgressTransitionRegister,
-    {
-      get: maybeThrowError,
-      set: () => {
-        maybeThrowError();
-        return false;
-      },
-    }
-  );
+  // It's crash the app. Issue: https://github.com/software-mansion/react-native-reanimated/issues/5468
+  // const maybeThrowError = () => {
+  //   // Jest attempts to access a property of this object to check if it is a Jest mock
+  //   // so we can't throw an error in the getter.
+  //   if (!isJest()) {
+  //     throw new Error(
+  //       '[Reanimated] `ProgressTransitionRegister` is not available on non-native platform.'
+  //     );
+  //   }
+  // };
+  // global.ProgressTransitionRegister = new Proxy(
+  //   {} as ProgressTransitionRegister,
+  //   {
+  //     get: maybeThrowError,
+  //     set: () => {
+  //       maybeThrowError();
+  //       return false;
+  //     },
+  //   }
+  // );
 } else {
   runOnUIImmediately(() => {
     'worklet';
